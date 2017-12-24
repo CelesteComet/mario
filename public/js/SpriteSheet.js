@@ -1,39 +1,33 @@
 class SpriteSheet {
-  constructor(image, width, height) {
-    this.image = image; 
-    this.width = width; 
-    this.height = height;
-    this.tiles = new Map();
-  } 
+  constructor(image, spriteWidth, spriteHeight) {
+    this.image = image;
+    this.spriteWidth = spriteWidth;
+    this.spriteHeight = spriteHeight;
+    this.tiles = {};
+  }
 
-  define(name, x, y) {
+  // position x,y here defines where to begin choosing the sprite from the sprite sheet
+  define(name, posX, posY) {
     const buffer = document.createElement('canvas');
-    buffer.width = this.width;
-    buffer.height = this.height;
+    buffer.width = this.spriteWidth;
+    buffer.height = this.spriteHeight;
     buffer
       .getContext('2d')
       .drawImage(
         this.image,
-        x * this.width, // sx
-        y * this.height, // sy
-        this.width, // s-width
-        this.height, // s-height
-        0, // destination-x
-        0, // destination-y
-        this.width, // destination-width
-        this.height // destination-height
-      )
-    this.tiles.set(name, buffer)
+        posX * this.spriteWidth, posY * this.spriteHeight, this.spriteWidth, this.spriteHeight,
+        0, 0, this.spriteWidth, this.spriteHeight);
+    this.tiles[name] = buffer;
   }
 
-  draw(name, context, x, y) {
-    const buffer = this.tiles.get(name);
-    context.drawImage(buffer, x, y);
+  draw(name, context, posX, posY) {
+    const buffer = this.tiles[name];
+    context.drawImage(buffer, posX, posY);
   }
 
   drawTile(name, context, x, y) {
-    this.draw(name, context, x * this.width, y * this.height);
+    this.draw(name, context, x * this.spriteWidth, y * this.spriteHeight);
   }
-}
+} 
 
 export default SpriteSheet;
