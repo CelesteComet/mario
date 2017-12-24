@@ -7,17 +7,21 @@ class SpriteSheet {
   }
 
   // position x,y here defines where to begin choosing the sprite from the sprite sheet
-  define(name, posX, posY) {
+  define(name, posX, posY, spriteWidth, spriteHeight) {
     const buffer = document.createElement('canvas');
-    buffer.width = this.spriteWidth;
-    buffer.height = this.spriteHeight;
+    buffer.width = spriteWidth;
+    buffer.height = spriteHeight;
     buffer
       .getContext('2d')
       .drawImage(
         this.image,
-        posX * this.spriteWidth, posY * this.spriteHeight, this.spriteWidth, this.spriteHeight,
-        0, 0, this.spriteWidth, this.spriteHeight);
+        posX, posY, spriteWidth, spriteHeight,
+        0, 0, spriteWidth, spriteHeight);
     this.tiles[name] = buffer;
+  }
+
+  defineTile(name, x, y) {
+    this.define(name, x * this.spriteWidth, y * this.spriteHeight, this.spriteWidth, this.spriteHeight)
   }
 
   draw(name, context, posX, posY) {
