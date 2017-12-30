@@ -25,6 +25,7 @@ class SpriteSheet {
   }
 
   draw(name, context, posX, posY) {
+    console.log(context)
     const buffer = this.tiles[name];
     context.drawImage(buffer, posX, posY);
   }
